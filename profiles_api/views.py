@@ -10,6 +10,7 @@ class HolaApiView(APIView):
     # Crear serializers_class para tener acceso al serializer que creamos (HolaSerializer)
     serializers_class = serializers.HolaSerializer
 
+    ## metodo get para obtener datos
     def get(self, request, format=None):
         ## Retornar lista de caracteristicas del API View
         api_view = [
@@ -37,3 +38,18 @@ class HolaApiView(APIView):
                 serializer.errors,
                 status = status.HTTP_400_BAD_REQUEST
             )
+    
+
+    ## metodo para actualizar un objeto
+    def put(self, request, pk=None):
+        return Response({'method':'PUT'})
+    
+
+    ## metodo para actualizacion parcial un objeto
+    def patch(self, request, pk=None):
+        return Response({'method':'PATCH'})
+
+
+    ## metodo para borrar un registro
+    def delete(self, request, pk=None):
+        return Response({'method':'DELETE'})
