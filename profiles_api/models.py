@@ -59,3 +59,5 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         # Retornar cadena representando nuestro usuario
         return self.email
+
+''' Se debe registrar el UserProfile en el admin.py '''
