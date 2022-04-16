@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import viewsets
 
 from profiles_api import serializers
 
@@ -53,3 +54,51 @@ class HolaApiView(APIView):
     ## metodo para borrar un registro
     def delete(self, request, pk=None):
         return Response({'method':'DELETE'})
+
+    
+### CREAR VIEWSETS
+class HolaViewSet(viewsets.ViewSet):
+
+    serializers_class = serializers.HolaSerializer
+
+    ## Listar los objetos (como un GET)
+    def list(self, request):
+        # Retornar mensaje de hola Mundo
+        api_viewset = [
+            'Usa acciones (list, create, retrieve, update, partial_update)',
+            'Automaticamente mapea a los URLs usando Routers',
+            'Provee mas funcionalidad con menos código'
+        ]
+        return Response({'mensaje': 'Hola!', 'api_viewset': api_viewset})
+    
+    
+    # Crear nuevo mensaje de Hola Mundo (es como el POST)
+    def create(self, request):
+
+        serializer = self.serializers_class(data=request.data)
+
+        # Verificar que la informacion recibida es valida
+        if serializer.is_valid():
+            name = serializer.validated_data.get('name')
+            mensaje = f"Hola {name}"
+            return Response({'mensaje': mensaje})
+        else:
+            return Response(
+                serializer.errors,
+                status = status.HTTP_400_BAD_REQUEST
+            )
+    
+
+    ## Obtener un solo dato segun su PK o ID
+    def retrieve(self, request, pk=None):
+        return Response({'metodo_http':'GET'})
+
+
+    ## Actualizar
+    def update(self, request, pk=None):
+        return Response({'metodo_http':'PUT'})
+
+
+    ## Eliminar
+    def destroy(self, request, pk=None):
+        return Response({'metodo_http':'DELETE'})
