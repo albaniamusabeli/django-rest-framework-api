@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from profiles_api import serializers, models
 
-from profiles_api import serializers
 
 class HolaApiView(APIView):
     # API View de prueba
@@ -102,3 +102,13 @@ class HolaViewSet(viewsets.ViewSet):
     ## Eliminar
     def destroy(self, request, pk=None):
         return Response({'metodo_http':'DELETE'})
+    
+
+## LA TABLA DE USUARIO SE VA A CONVERTIR EN JSON PARA REGISTRAR Y/O LISTAR
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """ Crear y actualizar perfiles """
+    ## Convertir en JSON la tabla UserProfile (serializer_class debe llamarse asi, porque es de django)
+    serializer_class = serializers.UserProfileSerializer
+    ## Crear una consulta para obtener todos los usuarios
+    queryset = models.UserProfile.objects.all()
+    
