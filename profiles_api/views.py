@@ -1,8 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework import viewsets
-from profiles_api import serializers, models
+from rest_framework.authentication import TokenAuthentication
+
+from profiles_api import serializers, models, permissions
 
 
 class HolaApiView(APIView):
@@ -111,4 +113,11 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserProfileSerializer
     ## Crear una consulta para obtener todos los usuarios
     queryset = models.UserProfile.objects.all()
-    
+
+    authentication_classes = (TokenAuthentication,)
+
+    permission_classes = (permissions.ActualizarPropioPerfil,)
+    ## Para filtrar
+    filter_backends = (filters.SearchFilter,)
+    ## Como buscar en el filtro
+    search_fields = ('name', 'email',)
