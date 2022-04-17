@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status, filters
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 
 from profiles_api import serializers, models, permissions
 
@@ -121,3 +123,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     ## Como buscar en el filtro
     search_fields = ('name', 'email',)
+
+
+# Clase para crear los token de autenticacion
+class UserLoginApiView(ObtainAuthToken):
+    """ Crear tokens de autenticacion de usuarios """
+    ## Agregar clases de rendeder al ObtainAuthToken que va a habilitarlo en el admin de Django
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
